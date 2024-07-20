@@ -20,7 +20,14 @@ export function getSevenDaysFromDay(day: number, month: number, year: number) {
     }
   }
 
-  return sevenDays;
+  return constructDateString(sevenDays[sevenDays.length - 1], month, year);
+}
+
+export function constructDateString(day: number, month: number, year: number) {
+  const dayString = day < 10 ? `0${day}` : `${day}`;
+  const monthString = month < 10 ? `0${month}` : `${month}`;
+
+  return `${year}-${monthString}-${dayString}`;
 }
 
 export function getDayMonthAndYearFromDate(date: string) {
