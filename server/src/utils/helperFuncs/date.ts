@@ -1,4 +1,4 @@
-function numberOfDaysInMonth(year: number, month: number) {
+export function numberOfDaysInMonth(year: number, month: number): number {
   if (month === 2) {
     return year % 4 === 0 ? 29 : 28;
   } else if ([4, 6, 9, 11].includes(month)) {
@@ -8,19 +8,41 @@ function numberOfDaysInMonth(year: number, month: number) {
   }
 }
 
-export function getSevenDaysFromDay(day: number, month: number, year: number) {
+export function lastDayInMonth(day: number, month: number, year: number) {
   const daysInMonth = numberOfDaysInMonth(year, month);
-  const sevenDays = [];
 
-  for (let i = 0; i < 7; i++) {
-    if (day + i <= daysInMonth) {
-      sevenDays.push(day + i);
-    } else {
-      sevenDays.push(day + i - daysInMonth);
-    }
+  return day === daysInMonth;
+}
+
+export function getSevenDaysFromDay(day: number, month: number, year: number) {
+  if (day > 31 || month > 12) {
+    throw new Error("Invalid date");
   }
 
-  return constructDateString(sevenDays[sevenDays.length - 1], month, year);
+  let currentDay = day;
+  let currentMonth = month;
+  let currentYear = year;
+
+  const daysInMonth = numberOfDaysInMonth(year, month);
+  const result = [];
+
+  // TODO: Refactor this so that I account for the next month when calculating the next seven days
+  for (let i = 0; i < 7; i++) {
+    if (currentDay > daysInMonth) {
+      currentDay = 1;
+      currentMonth++;
+      if (currentMonth > 12) {
+        currentMonth = 1;
+        currentYear++;
+      }
+    }
+    result.push({ day: currentDay, month: currentMonth, year: currentYear });
+    currentDay++;
+  }
+
+  return result.map((date) =>
+    constructDateString(date.day, date.month, date.year)
+  );
 }
 
 export function constructDateString(day: number, month: number, year: number) {
