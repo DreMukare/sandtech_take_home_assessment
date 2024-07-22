@@ -1,4 +1,4 @@
-export interface WeatherForecast {
+export interface IWeatherForecast {
   _id: string; //"669d85af0f81b111f58163c0",
   date: string; //"2024-07-28",
   maxTempC: number; //25.5,

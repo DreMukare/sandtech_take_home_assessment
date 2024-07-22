@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { getCurrentDateAsString } from "../../../utils/funcs/date";
+import { IWeatherForecast } from "../../../utils/types/weather";
 
 const WeatherForecast = () => {
-  const [forecastData, setForecastData] = useState<any>(null);
+  const [forecastData, setForecastData] = useState<IWeatherForecast[] | null>(
+    null
+  );
   const dateString = getCurrentDateAsString();
 
   useEffect(() => {
@@ -18,6 +21,7 @@ const WeatherForecast = () => {
     };
 
     const cachedForecastData = localStorage.getItem("forecastData");
+    // TODO: check if data 7 days from now is cached, if yes pull from localstorage, if not getForecastData
     if (cachedForecastData) {
       setForecastData(JSON.parse(cachedForecastData));
     } else {
