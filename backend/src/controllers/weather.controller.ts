@@ -8,7 +8,9 @@ class WeatherController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
+    console.log("FUNCTION RAN");
     try {
+      console.log("GETTING HERE");
       // get weather data for next seven days from db
       const date = String(req.query.date);
 
@@ -17,8 +19,10 @@ class WeatherController {
       const weatherForecastData = await weatherService.getForecast(date);
 
       // if not weatherForecastData throw error and give user response that we have internal error
+      if (!weatherForecastData) throw new Error("Internal Error");
 
       // else respond with weatherForecastData
+      res.status(200).json(weatherForecastData);
     } catch (err: unknown) {
       if (err instanceof mongoose.Error) {
         console.log("Db Error: ", err);
