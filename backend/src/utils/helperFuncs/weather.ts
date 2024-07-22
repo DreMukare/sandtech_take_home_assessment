@@ -11,7 +11,7 @@ export function parseApiResponse(apiResponse: { forecastday: IforecastDay[] }) {
       sunrise: day.astro.sunrise,
       sunset: day.astro.sunset,
       condition: day.day.condition.text,
-      conditionIcon: "https" + day.day.condition.icon,
+      conditionIcon: "https:" + day.day.condition.icon,
     };
   });
 }
