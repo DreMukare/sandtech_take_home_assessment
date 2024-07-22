@@ -11,10 +11,18 @@ const WeatherForecast = () => {
         `http://localhost:3000/api/v1/weather?date=${dateString}`
       );
       const data = await response.json();
+
+      localStorage.setItem("forecastData", JSON.stringify(data));
+
       setForecastData(data);
     };
 
-    getForecastData();
+    const cachedForecastData = localStorage.getItem("forecastData");
+    if (cachedForecastData) {
+      setForecastData(JSON.parse(cachedForecastData));
+    } else {
+      getForecastData();
+    }
   }, []);
 
   if (!forecastData) {
