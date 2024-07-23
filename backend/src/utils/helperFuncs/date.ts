@@ -63,3 +63,30 @@ export function getDayMonthAndYearFromDate(date: string) {
     year,
   };
 }
+export function getCurrentDateAsString(): string {
+  const currentDate = new Date();
+
+  const year = currentDate.getFullYear();
+  const month = ("0" + (currentDate.getMonth() + 1)).slice(-2); // Adding 1 because months are zero-indexed
+  const day = ("0" + currentDate.getDate()).slice(-2);
+
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+}
+
+export function validateDate(date: string): boolean {
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+  if (dateRegex.test(date)) {
+    const { year, month, day } = getDayMonthAndYearFromDate(date);
+    const daysInMonth = numberOfDaysInMonth(year, month);
+
+    if (day > daysInMonth) return false;
+
+    if (month > 12) return false;
+
+    return true;
+  }
+
+  return false;
+}
