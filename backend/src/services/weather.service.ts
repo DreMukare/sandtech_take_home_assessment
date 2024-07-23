@@ -38,7 +38,7 @@ class WeatherService extends BaseService<IWeatherModel, WeatherRepository> {
     const weatherData = await WeatherModel.findOne({
       date: sevenDaysFromCurrentDay[sevenDaysFromCurrentDay.length - 1],
     });
-    console.log(weatherData);
+
     if (weatherData) {
       const response = [];
       let day = currentDay;

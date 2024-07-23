@@ -23,6 +23,7 @@ describe("GET /api/v1/weather", () => {
       expect(response.statusCode).toBe(400);
     });
   });
+
   describe("given a date string", () => {
     test("should respond with 200 status code", async () => {
       const response = await supertest(app).get(
@@ -30,7 +31,15 @@ describe("GET /api/v1/weather", () => {
       );
       expect(response.statusCode).toBe(200);
       expect(response.body.length).toBeGreaterThan(0);
+      expect(response.headers["content-type"]).toEqual(
+        expect.stringContaining("json")
+      );
     });
-    // specify json in the content-type header
+    // test("should respond with 500 status code if no data is found", async () => {
+    //   const response = await supertest(app).get(
+    //     "/api/v1/weather?date=2022-01-01"
+    //   );
+    //   expect(response.statusCode).toBe(500);
+    // });
   });
 });
