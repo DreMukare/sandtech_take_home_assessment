@@ -1,4 +1,21 @@
+function testDayValues(day: number) {
+  if (day > 31 || day < 1) {
+    throw new Error(
+      "Invalid day value: Cannot be greater than 31 or less than 1"
+    );
+  }
+}
+function testMonthValues(month: number) {
+  if (month > 12 || month < 1) {
+    throw new Error(
+      "Invalid month value: Cannot be greater than 12 or less than 1"
+    );
+  }
+}
+
 export function numberOfDaysInMonth(year: number, month: number): number {
+  testMonthValues(month);
+
   if (month === 2) {
     return year % 4 === 0 ? 29 : 28;
   } else if ([4, 6, 9, 11].includes(month)) {
@@ -9,15 +26,17 @@ export function numberOfDaysInMonth(year: number, month: number): number {
 }
 
 export function lastDayInMonth(day: number, month: number, year: number) {
+  testDayValues(day);
+  testMonthValues(month);
+
   const daysInMonth = numberOfDaysInMonth(year, month);
 
   return day === daysInMonth;
 }
 
 export function getSevenDaysFromDay(day: number, month: number, year: number) {
-  if (day > 31 || month > 12) {
-    throw new Error("Invalid date");
-  }
+  testDayValues(day);
+  testMonthValues(month);
 
   let currentDay = day;
   let currentMonth = month;
@@ -46,6 +65,9 @@ export function getSevenDaysFromDay(day: number, month: number, year: number) {
 }
 
 export function constructDateString(day: number, month: number, year: number) {
+  testDayValues(day);
+  testMonthValues(month);
+
   const dayString = day < 10 ? `0${day}` : `${day}`;
   const monthString = month < 10 ? `0${month}` : `${month}`;
 
@@ -56,6 +78,9 @@ export function getDayMonthAndYearFromDate(date: string) {
   const day = Number(date.split("-")[2]);
   const month = Number(date.split("-")[1]);
   const year = Number(date.split("-")[0]);
+
+  testDayValues(day);
+  testMonthValues(month);
 
   return {
     day,
@@ -78,12 +103,14 @@ export function validateDate(date: string): boolean {
   const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
   if (dateRegex.test(date)) {
-    const { year, month, day } = getDayMonthAndYearFromDate(date);
+    const day = Number(date.split("-")[2]);
+    const month = Number(date.split("-")[1]);
+    const year = Number(date.split("-")[0]);
     const daysInMonth = numberOfDaysInMonth(year, month);
 
-    if (day > daysInMonth) return false;
+    if (day > daysInMonth || day < 1) return false;
 
-    if (month > 12) return false;
+    if (month > 12 || month < 1) return false;
 
     return true;
   }
