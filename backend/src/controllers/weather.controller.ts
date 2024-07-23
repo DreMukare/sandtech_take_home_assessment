@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import weatherService from "../services/weather.service";
+import { validateDate } from "../utils/helperFuncs/date";
 
 class WeatherController {
   static async getWeatherForecast(
@@ -8,20 +9,27 @@ class WeatherController {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    console.log("FUNCTION RAN");
     try {
-      console.log("GETTING HERE");
-      // get weather data for next seven days from db
       const date = String(req.query.date);
 
       // if date is not valid throw error and give user response that they gave invalid date
+      const dateValid = validateDate(date);
+
+      if (!dateValid || !date) {
+        res.status(400).json({
+          message:
+            "Invalid date value. Please provide a date in the form yyyy-dd-mm",
+        });
+        return;
+      }
 
       const weatherForecastData = await weatherService.getForecast(date);
 
-      // if not weatherForecastData throw error and give user response that we have internal error
-      if (!weatherForecastData) throw new Error("Internal Error");
+      if (!weatherForecastData) {
+        res.status(500).json({ message: "Internal Server Error" });
+        return;
+      }
 
-      // else respond with weatherForecastData
       res.status(200).json(weatherForecastData);
     } catch (err: unknown) {
       if (err instanceof mongoose.Error) {
@@ -31,6 +39,7 @@ class WeatherController {
       console.log("Unexpected error creating weather record", err);
       throw err;
     }
+    next();
   }
 }
 
