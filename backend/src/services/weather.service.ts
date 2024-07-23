@@ -33,7 +33,6 @@ class WeatherService extends BaseService<IWeatherModel, WeatherRepository> {
     );
 
     const daysInMonth = numberOfDaysInMonth(year, currentMonth);
-    console.log(sevenDaysFromCurrentDay[sevenDaysFromCurrentDay.length - 1]);
 
     const weatherData = await WeatherModel.findOne({
       date: sevenDaysFromCurrentDay[sevenDaysFromCurrentDay.length - 1],
