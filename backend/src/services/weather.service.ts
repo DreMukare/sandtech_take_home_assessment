@@ -33,10 +33,12 @@ class WeatherService extends BaseService<IWeatherModel, WeatherRepository> {
     );
 
     const daysInMonth = numberOfDaysInMonth(year, currentMonth);
+    console.log(sevenDaysFromCurrentDay[sevenDaysFromCurrentDay.length - 1]);
 
     const weatherData = await WeatherModel.findOne({
       date: sevenDaysFromCurrentDay[sevenDaysFromCurrentDay.length - 1],
     });
+    console.log(weatherData);
     if (weatherData) {
       const response = [];
       let day = currentDay;
@@ -54,7 +56,6 @@ class WeatherService extends BaseService<IWeatherModel, WeatherRepository> {
         }
         const dayString = constructDateString(day, month, currentYear);
         const weatherData = await WeatherModel.findOne({ date: dayString });
-        console.log("SUCCESSFULLY FOUND THE DATA IN DB");
         response.push(weatherData);
         day++;
       }
@@ -62,14 +63,16 @@ class WeatherService extends BaseService<IWeatherModel, WeatherRepository> {
       return response;
     } else {
       const forecastData = await getForecastDataFromAPI();
-      console.log("!!!!!!!HAD TO QUERY API!!!!!!!");
-
       const parsedForecastData = parseApiResponse(forecastData);
 
       try {
         for (const data of parsedForecastData) {
           const document = new WeatherModel(data);
-          await document.save();
+          const filter = { date: data.date };
+          const update = { ...data };
+          await WeatherModel.findOneAndUpdate(filter, update, {
+            upsert: true,
+          });
         }
         return parsedForecastData;
       } catch (err: unknown) {
