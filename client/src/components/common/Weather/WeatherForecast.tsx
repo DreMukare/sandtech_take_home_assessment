@@ -4,7 +4,7 @@ const WeatherForecast = () => {
   const forecastData = useWeatherForecastData();
 
   if (!forecastData) {
-    return <div>Loading...</div>;
+    return <div>Loading 7 Day Weather Forecast...</div>;
   }
 
   return (
