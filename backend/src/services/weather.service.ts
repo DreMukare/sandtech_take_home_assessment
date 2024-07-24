@@ -43,7 +43,7 @@ class WeatherService extends BaseService<IWeatherModel, WeatherRepository> {
       let day = currentDay;
       let month = currentMonth;
       let currentYear = year;
-      // TODO: Place this in try...catch block
+
       for (let i = 0; i < 7; i++) {
         if (day > daysInMonth) {
           day = 1;

@@ -45,7 +45,6 @@ export function getSevenDaysFromDay(day: number, month: number, year: number) {
   const daysInMonth = numberOfDaysInMonth(year, month);
   const result = [];
 
-  // TODO: Refactor this so that I account for the next month when calculating the next seven days
   for (let i = 0; i < 7; i++) {
     if (currentDay > daysInMonth) {
       currentDay = 1;
