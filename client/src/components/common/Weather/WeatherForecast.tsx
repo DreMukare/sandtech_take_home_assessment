@@ -1,4 +1,5 @@
 import useWeatherForecastData from "../../../hooks/useWeatherForecastData";
+import { getFriendlyDateString } from "../../../utils/funcs/date";
 import { IWeatherForecast } from "../../../utils/types/weather";
 
 const WeatherForecast = () => {
@@ -33,7 +34,7 @@ const WeatherForecast = () => {
       >
         {forecastData.map((forecast: IWeatherForecast) => (
           <div key={forecast._id}>
-            <h3>{forecast.date}</h3>
+            <h3>{getFriendlyDateString(forecast.date)}</h3>
             <p>{forecast.condition}</p>
             <img src={forecast.conditionIcon} alt={forecast.condition} />
             <p>Max Temp: {forecast.maxTempC}°C</p>
