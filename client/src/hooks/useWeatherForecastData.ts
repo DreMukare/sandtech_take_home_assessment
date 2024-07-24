@@ -1,5 +1,3 @@
-// import { useEffect, useState } from "react";
-// import { IWeatherForecast } from "../utils/types/weather";
 import { getCurrentDateAsString } from "../utils/funcs/date";
 import { useQuery } from "@tanstack/react-query";
 
