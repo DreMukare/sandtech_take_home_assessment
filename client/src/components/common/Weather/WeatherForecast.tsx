@@ -34,7 +34,15 @@ const WeatherForecast = () => {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        gap: "2em",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       {forecastData.map((forecast: any) => (
         <div key={forecast._id}>
           <h3>{forecast.date}</h3>
