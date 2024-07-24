@@ -12,7 +12,23 @@ const StepButton = (props: {
     }
   };
 
-  return <button onClick={handleClick}>{decrement ? "<" : ">"}</button>;
+  return (
+    <button
+      style={{
+        width: "50px",
+        height: "50px",
+        borderRadius: "50%",
+        border: "none",
+        backgroundColor: "lightblue",
+        color: "white",
+        fontSize: "1.5rem",
+        cursor: "pointer",
+      }}
+      onClick={handleClick}
+    >
+      {decrement ? "<" : ">"}
+    </button>
+  );
 };
 
 export default StepButton;
