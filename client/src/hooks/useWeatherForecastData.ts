@@ -1,33 +1,21 @@
-import { useEffect, useState } from "react";
-import { IWeatherForecast } from "../utils/types/weather";
+// import { useEffect, useState } from "react";
+// import { IWeatherForecast } from "../utils/types/weather";
 import { getCurrentDateAsString } from "../utils/funcs/date";
+import { useQuery } from "@tanstack/react-query";
 
 export default function useWeatherForecastData() {
-  const [forecastData, setForecastData] = useState<IWeatherForecast[] | null>(
-    null
-  );
   const dateString = getCurrentDateAsString();
 
-  useEffect(() => {
-    const getForecastData = async () => {
-      const response = await fetch(
-        `http://localhost:3000/api/v1/weather?date=${dateString}`
-      );
-      const data = await response.json();
+  const query = useQuery({ queryKey: ["todos"], queryFn: getForecastData });
 
-      localStorage.setItem("forecastData", JSON.stringify(data));
+  async function getForecastData() {
+    const response = await fetch(
+      `http://localhost:3000/api/v1/weather?date=${dateString}`
+    );
+    const data = await response.json();
 
-      setForecastData(data);
-    };
+    return data;
+  }
 
-    const cachedForecastData = localStorage.getItem("forecastData");
-    // TODO: check if data 7 days from now is cached, if yes pull from localstorage, if not getForecastData
-    if (cachedForecastData) {
-      setForecastData(JSON.parse(cachedForecastData));
-    } else {
-      getForecastData();
-    }
-  }, []);
-
-  return { forecastData };
+  return query.data;
 }

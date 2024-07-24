@@ -1,7 +1,7 @@
 import useWeatherForecastData from "../../../hooks/useWeatherForecastData";
 
 const WeatherForecast = () => {
-  const { forecastData } = useWeatherForecastData();
+  const forecastData = useWeatherForecastData();
 
   if (!forecastData) {
     return <div>Loading...</div>;
