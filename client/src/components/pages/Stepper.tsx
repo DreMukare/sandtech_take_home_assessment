@@ -1,8 +1,7 @@
 import { useState } from "react";
-import StepButton from "../common/Stepper/StepButton";
 import StepperContainer from "../common/Stepper/StepperContainer";
-import StepperStep from "../common/Stepper/StepperStep";
 import WeatherForecast from "../common/Weather/WeatherForecast";
+import Layout from "../common/Layout";
 
 const Stepper = () => {
   const [stepNumber, setStepNumber] = useState<number>(1);
@@ -29,23 +28,13 @@ const Stepper = () => {
   ];
 
   return (
-    <div>
-      <div className="container">
-        <StepButton
-          currentStep={stepNumber}
-          setCurrentStep={setStepNumber}
-          decrement
-        />
-        <StepperContainer>
-          {
-            <StepperStep>
-              {stepperSteps.find((step) => step.id === stepNumber)?.component}
-            </StepperStep>
-          }
-        </StepperContainer>
-        <StepButton currentStep={stepNumber} setCurrentStep={setStepNumber} />
-      </div>
-    </div>
+    <Layout>
+      <StepperContainer
+        stepNumber={stepNumber}
+        setStepNumber={setStepNumber}
+        stepperSteps={stepperSteps}
+      />
+    </Layout>
   );
 };
 
