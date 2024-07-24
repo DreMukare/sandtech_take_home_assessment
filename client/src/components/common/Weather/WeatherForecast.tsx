@@ -1,4 +1,5 @@
 import useWeatherForecastData from "../../../hooks/useWeatherForecastData";
+import { IWeatherForecast } from "../../../utils/types/weather";
 
 const WeatherForecast = () => {
   const forecastData = useWeatherForecastData();
@@ -30,7 +31,7 @@ const WeatherForecast = () => {
           alignItems: "center",
         }}
       >
-        {forecastData.map((forecast: any) => (
+        {forecastData.map((forecast: IWeatherForecast) => (
           <div key={forecast._id}>
             <h3>{forecast.date}</h3>
             <p>{forecast.condition}</p>
@@ -39,6 +40,14 @@ const WeatherForecast = () => {
             <p>Min Temp: {forecast.minTempC}°C</p>
             <p>Sunrise: {forecast.sunrise}</p>
             <p>Sunset: {forecast.sunset}</p>
+            <p
+              style={{
+                marginTop: "1em",
+                fontWeight: "bold",
+              }}
+            >
+              {forecast.willItRain ? "It will rain" : "It will not rain"}
+            </p>
           </div>
         ))}
       </div>
