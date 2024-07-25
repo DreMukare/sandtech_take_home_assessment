@@ -19,6 +19,7 @@ const StepIndicator = (props: {
       {stepperSteps.map((step, idx) => {
         return (
           <button
+            data-testid="step-indicator"
             key={idx}
             style={{
               width: "1em",
